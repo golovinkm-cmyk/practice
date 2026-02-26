@@ -59,7 +59,7 @@ fun ColorPickerScreen() {
 
         Button(
             onClick = {
-                val foundColor = colorMap[textFieldValue.trim()]
+                val foundColor = colorMap.entries.find{it.key.equals(textFieldValue.trim(),ignoreCase = true)}?.value
                 if (foundColor != null) {
                     buttonBackgroundColor = foundColor
                 } else {
