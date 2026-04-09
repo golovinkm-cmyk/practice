@@ -1,14 +1,15 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.kotlin.compose)
 }
 
 android {
-    namespace = "ci.nsu.mobile.colorpicker"
+    namespace = "ci.nsu.mobile.main"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "ci.nsu.mobile.colorpicker"
+        applicationId = "ci.nsu.mobile.main"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
@@ -28,12 +29,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 
     buildFeatures {
@@ -46,6 +47,7 @@ android {
 }
 
 dependencies {
+    implementation("androidx.appcompat:appcompat:1.7.1")
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.activity:activity-compose:1.8.2")
