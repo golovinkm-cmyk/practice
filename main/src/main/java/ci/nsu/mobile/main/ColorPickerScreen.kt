@@ -1,6 +1,5 @@
 package ci.nsu.mobile.main
 
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -14,15 +13,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ColorPickerScreen(
-    viewModel: ColorPickerViewModel = viewModel(),
-    it: Float
+    viewModel: ColorPickerViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
 ) {
-    // Подписка на состояние ViewModel
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Surface(
@@ -36,7 +32,6 @@ fun ColorPickerScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
-            // Заголовок
             Text(
                 text = "Color Picker",
                 fontSize = 28.sp,
@@ -44,7 +39,6 @@ fun ColorPickerScreen(
                 color = MaterialTheme.colorScheme.primary
             )
 
-            // Карточка предпросмотра цвета
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -72,7 +66,7 @@ fun ColorPickerScreen(
             ColorSlider(
                 label = "Red",
                 value = uiState.red.toFloat(),
-                onValueChange = { viewModel.onRedChanged(it) },
+                onValueChange = viewModel::onRedChanged,
                 colorRange = Color.Red
             )
 
@@ -80,7 +74,7 @@ fun ColorPickerScreen(
             ColorSlider(
                 label = "Green",
                 value = uiState.green.toFloat(),
-                onValueChange = { viewModel.onGreenChanged(it) },
+                onValueChange = viewModel::onGreenChanged,
                 colorRange = Color.Green
             )
 
@@ -88,14 +82,10 @@ fun ColorPickerScreen(
             ColorSlider(
                 label = "Blue",
                 value = uiState.blue.toFloat(),
-                onValueChange = {
-                    val it = 0.0f
-                    viewModel.onBlueChanged(it)
-                },
+                onValueChange = viewModel::onBlueChanged,
                 colorRange = Color.Blue
             )
 
-            // Кнопка случайного цвета
             Button(
                 onClick = { viewModel.generateRandomColor() },
                 modifier = Modifier
@@ -113,7 +103,6 @@ fun ColorPickerScreen(
                 )
             }
 
-            // Информационная карточка с RGB значениями
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 elevation = CardDefaults.cardElevation(4.dp),
@@ -140,63 +129,54 @@ fun ColorPickerScreen(
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Medium
                     )
-
                 }
             }
         }
     }
-
-
-    // Компонент слайдера для выбора цвета
-    @OptIn(ExperimentalMaterial3Api::class)
-    @Composable
-    fun ColorSlider(
-        label: String,
-        value: Float,
-        onValueChange: (Float) -> Unit,
-        colorRange: Color
-    ) {
-        Column(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = label,
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 16.sp,
-                    color = colorRange
-                )
-                Text(
-                    text = "${value.toInt()}",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp,
-                    color = colorRange
-                )
-            }
-
-            Spacer(modifier = Modifier.height(4.dp))
-
-            Slider(
-                value = value,
-                onValueChange = onValueChange,
-                valueRange = 0f..255f,
-                colors = SliderDefaults.colors(
-                    thumbColor = colorRange,
-                    activeTrackColor = colorRange,
-                    inactiveTrackColor = colorRange.copy(alpha = 0.3f)
-                ),
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
-    }
-
-
 }
 
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ColorSlider(label: String, value: Float, onValueChange: () -> Unit, colorRange: Color) {
-    TODO("Not yet implemented")
+fun ColorSlider(
+    label: String,
+    value: Float,
+    onValueChange: (Float) -> Unit,
+    colorRange: Color
+) {
+    Column(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = label,
+                fontWeight = FontWeight.Medium,
+                fontSize = 16.sp,
+                color = colorRange
+            )
+            Text(
+                text = "${value.toInt()}",
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp,
+                color = colorRange
+            )
+        }
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+        Slider(
+            value = value,
+            onValueChange = onValueChange,
+            valueRange = 0f..255f,
+            colors = SliderDefaults.colors(
+                thumbColor = colorRange,
+                activeTrackColor = colorRange,
+                inactiveTrackColor = colorRange.copy(alpha = 0.3f)
+            ),
+            modifier = Modifier.fillMaxWidth()
+        )
+    }
 }

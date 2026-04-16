@@ -17,7 +17,7 @@ data class ColorUiState(
 
     val hexCode: String get() = "#${red.toString(16).padStart(2, '0')}${green.toString(16).padStart(2, '0')}${blue.toString(16).padStart(2, '0')}".uppercase()
 
-
+// Яркость
     val luminance: Float get() = (0.299f * red + 0.587f * green + 0.114f * blue) / 255f
     val textColor: Color get() = if (luminance > 0.5f) Color.Black else Color.White
 }

@@ -14,22 +14,22 @@ class ColorPickerViewModel : ViewModel() {
     // Публичный неизменяемый поток для UI
     val uiState: StateFlow<ColorUiState> = _uiState.asStateFlow()
 
-    // Обновление красного компонента
+    // Update красного компонента
     fun onRedChanged(newValue: Float) {
         _uiState.update { it.copy(red = newValue.toInt()) }
     }
 
-    // Обновление зеленого компонента
+    // Update зеленого компонента
     fun onGreenChanged(newValue: Float) {
         _uiState.update { it.copy(green = newValue.toInt()) }
     }
 
-    // Обновление синего компонента
+    // Update синего компонента
     fun onBlueChanged(newValue: Float) {
         _uiState.update { it.copy(blue = newValue.toInt()) }
     }
 
-    // Генерация случайного цвета
+    // Ген случайного цвета
     fun generateRandomColor() {
         _uiState.update {
             ColorUiState(
